@@ -36,7 +36,6 @@ def get_valid_moves(board):
 def make_move(board, move, player):
     board[move[0]][move[1]] = player
 
-
 def get_score_difference(board):
     # Row check
     for x in range(3):
