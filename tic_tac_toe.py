@@ -26,8 +26,8 @@ def get_valid_moves(board):
         return []
 
     valid_moves = []
-    for y in range(3):
-        for x in range(3):
+    for y in range(len(board)):
+        for x in range(len(board[y])):
             if board[x][y] == Player.NONE:
                 valid_moves.append((x, y))
     return valid_moves
@@ -38,26 +38,28 @@ def make_move(board, move, player):
 
 
 def get_score_difference(board):
-    # Row check
-    for x in range(3):
+    board_size = len(board)
+
+    # Column check
+    for x in range(board_size):
         this_player = board[x][0]
         if this_player == Player.NONE:
             continue
         matching = True
-        for y in range(3):
+        for y in range(board_size):
             if board[x][y] != this_player:
                 matching = False
                 break
         if matching:
             return 1 if this_player == Player.X else -1
 
-    # Column check
-    for y in range(3):
+    # Row check
+    for y in range(board_size):
         this_player = board[0][y]
         if this_player == Player.NONE:
             continue
         matching = True
-        for x in range(3):
+        for x in range(board_size):
             if board[x][y] != this_player:
                 matching = False
                 break
@@ -65,11 +67,23 @@ def get_score_difference(board):
             return 1 if this_player == Player.X else -1
 
     # Diagonal check
-    if board[0][0] == board[1][1] == board[2][2] != Player.NONE:
-        return 1 if board[0][0] == Player.X else -1
+    # Top left to bottom right
+    this_player = board[0][0]
+    for i in range(board_size):
+        cell = board[i][i]
+        if cell == Player.NONE or cell != this_player:
+            break
+    else:
+        return 1 if this_player == Player.X else -1
 
-    if board[0][2] == board[1][1] == board[2][0] != Player.NONE:
-        return 1 if board[0][2] == Player.X else -1
+    # Top right to bottom left
+    this_player = board[0][board_size - 1]
+    for i in range(board_size):
+        cell = board[i][board_size - i - 1]
+        if cell == Player.NONE or cell != this_player:
+            break
+    else:
+        return 1 if this_player == Player.X else -1
 
     return 0  # Neither player has won
 

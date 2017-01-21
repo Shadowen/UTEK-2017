@@ -38,7 +38,8 @@ def get_move(board, player=Player.X, alpha=float('-inf'), beta=float('inf')):
     return best_move, score;
 
 if __name__ == '__main__':
-    board = [[Player.NONE for _ in range(3)] for _ in range(3)]
+    board_size = 3
+    board = [[Player.NONE for _ in range(board_size)] for _ in range(board_size)]
     tic_tac_toe.display_board(board)
     player = Player.X
 
